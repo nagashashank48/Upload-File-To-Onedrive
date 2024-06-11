@@ -3,13 +3,26 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { ApiProvider } from '@reduxjs/toolkit/query/react';
+import { scoringapi } from './services/serviceDefination';
+import { MsalProvider } from '@azure/msal-react';
+import { Configuration, PublicClientApplication } from "@azure/msal-browser";
+const configuration: Configuration = {
+  auth: {
+    clientId:"c1c76223-cf1d-4eab-b9a8-3e325c22a117" ,
+    authority:"https://login.microsoftonline.com/4c2aaa0d-7f65-4d8f-ba0a-bc7db41908fb"
+  }
+};
+const pca = new PublicClientApplication(configuration);
+pca.initialize();
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+   <MsalProvider instance={pca}>
     <App />
+    </MsalProvider>
   </React.StrictMode>
 );
 
